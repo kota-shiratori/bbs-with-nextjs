@@ -45,19 +45,6 @@ const CreateBBSPage = () => {
   async function onSubmit(value: z.infer<typeof formSchema>) {
     const { username, title, content } = value;
     postBBS({ username, title, content });
-    // try {
-    //   await fetch("http://localhost:3001/api/post", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ username, title, content }),
-    //   });
-    //   router.push("/");
-    //   router.refresh();
-    // } catch (e) {
-    //   console.log(e);
-    // }
   }
 
   return (

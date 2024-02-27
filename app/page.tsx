@@ -3,7 +3,10 @@ import BBSCardList from "./components/BBSCardList";
 import { BBSData } from "./types/types";
 
 async function getBBSAllData() {
-  const response = await fetch("https://bbs-with-nextjs.vercel.app/api/post", {
+  // const response = await fetch("https://bbs-with-nextjs.vercel.app/api/post", {
+  //   cache: "no-store",
+  // });
+  const response = await fetch("http://localhost:3000/api/post", {
     cache: "no-store",
   });
 
