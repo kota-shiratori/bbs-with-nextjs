@@ -14,10 +14,25 @@ async function getBBSAllData() {
 
 export default function ClientSideComponent() {
   const [bbsAllData, setBbsAllData] = useState<BBSData[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // ローディング状態の管理
 
   useEffect(() => {
-    getBBSAllData().then((data) => setBbsAllData(data));
+    setIsLoading(true); // データフェッチ前にローディング状態をtrueに
+    getBBSAllData().then((data) => {
+      setBbsAllData(data);
+      setIsLoading(false); // データフェッチ後にローディング状態をfalseに
+    });
   }, []);
+
+  // ローディング中の表示
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // データが空の場合の表示
+  if (bbsAllData.length === 0) {
+    return <div>No data found.</div>;
+  }
 
   return <BBSCardList bbsAllData={bbsAllData} />;
 }
