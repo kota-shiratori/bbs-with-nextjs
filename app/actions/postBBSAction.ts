@@ -18,7 +18,4 @@ export const postBBS = async ({
       content,
     },
   });
-
-  revalidatePath("/");
-  redirect("/");
 };

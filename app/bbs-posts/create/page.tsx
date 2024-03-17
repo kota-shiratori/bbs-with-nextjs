@@ -33,8 +33,8 @@ const CreateBBSPage = () => {
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     const { username, title, content } = value;
-    await postBBS({ username, title, content });
-    router.push("/");
+    await postBBS({ username, title, content }); // サーバーサイドの操作
+    router.push("/"); // クライアントサイドでのリダイレクト
   }
 
   return (
