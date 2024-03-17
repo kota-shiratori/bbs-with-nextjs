@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Header from './components/layouts/header/Header';
 import "./globals.css";
-import Header from "./components/layouts/header/Header";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "BBS with Next.js14",
-  description: "Next.js14で掲示板Webアプリケーションを作成",
-};
+// QueryClientインスタンスの作成
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -16,11 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="js">
-      <body className={inter.className}>
-        <Header />
-        {children}
+    // QueryClientProviderでアプリケーションをラップ
+    <QueryClientProvider client={queryClient}>
+      <html lang="js">
+        <body className={inter.className}>
+          <Header />
+          {children}
         </body>
-    </html>
+      </html>
+    </QueryClientProvider>
   );
 }
