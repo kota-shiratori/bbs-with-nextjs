@@ -1,25 +1,10 @@
-import { useEffect, useState } from "react";
-import BBSCardList from "./components/BBSCardList";
-import { BBSData } from "./types/types";
-
-async function getBBSAllData() {
-  const response = await fetch("https://bbs-with-nextjs.vercel.app/api/post", {
-    cache: "no-store",
-  });
-  const bbsAllData: BBSData[] = await response.json();
-  return bbsAllData;
-}
+import React from "react";
+import ClientSideComponent from "@/app/components/ClientSideComponent";
 
 export default function Home() {
-  const [bbsAllData, setBbsAllData] = useState<BBSData[]>([]);
-
-  useEffect(() => {
-    getBBSAllData().then((data) => setBbsAllData(data));
-  }, []);
-
   return (
     <main>
-      <BBSCardList bbsAllData={bbsAllData} />
+      <ClientSideComponent />
     </main>
   );
 }
