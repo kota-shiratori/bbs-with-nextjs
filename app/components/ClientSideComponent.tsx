@@ -1,38 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from 'react-query';
 import BBSCardList from "@/app/components/BBSCardList";
 import { BBSData } from "@/app/types/types";
 
-async function getBBSAllData() {
+async function fetchBBSData() {
   const response = await fetch("https://bbs-with-nextjs.vercel.app/api/post", {
     cache: "no-store",
   });
-  const bbsAllData: BBSData[] = await response.json();
-  return bbsAllData;
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
 }
 
 export default function ClientSideComponent() {
-  const [bbsAllData, setBbsAllData] = useState<BBSData[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // ローディング状態の管理
+  const { data: bbsAllData, isLoading, error } = useQuery<BBSData[], Error>('bbsData', fetchBBSData);
 
-  useEffect(() => {
-    setIsLoading(true); // データフェッチ前にローディング状態をtrueに
-    getBBSAllData().then((data) => {
-      setBbsAllData(data);
-      setIsLoading(false); // データフェッチ後にローディング状態をfalseに
-    });
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error has occurred: {error.message}</div>;
 
-  // ローディング中の表示
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  // データが空の場合の表示
-  if (bbsAllData.length === 0) {
-    return <div>No data found.</div>;
-  }
-
-  return <BBSCardList bbsAllData={bbsAllData} />;
+  // bbsAllDataがundefinedの場合は空の配列を渡す
+  return <BBSCardList bbsAllData={bbsAllData || []} />;
 }
